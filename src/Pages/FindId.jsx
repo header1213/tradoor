@@ -2,33 +2,18 @@ import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import AppStateContext from "../Contexts/AppStateContext";
 
-export default function SignUp() {
-  const { signup: conductsignup } = useContext(AppStateContext);
+export default function FindId() {
   const history = useHistory();
+  const { findid } = useContext(AppStateContext);
   const [info, setInfo] = useState({
-    id: "",
-    pw: "",
     name: "",
     birth: "",
     email: "",
   });
-  const signup = () => {
-    if (!info.id || !info.name || !info.pw || !info.birth || !info.email) {
-      alert("입력하지 않은 값이 있습니다.");
-      return;
-    }
-    const res = conductsignup(info);
-    if (res) {
-      alert("회원가입 성공");
-      history.push("/login");
-    } else {
-      alert("이미 존재하는 아이디입니다.");
-    }
-  };
   return (
     <main>
-      <div id="signup">
-        <h1>회원가입</h1>
+      <div id="findid">
+        <h1>아이디 찾기</h1>
         <label>
           <span>이름</span>
           <input
@@ -46,39 +31,12 @@ export default function SignUp() {
           <span>생년월일</span>
           <input
             type="date"
-            onChange={(e) =>
+            onChange={(e) => {
               setInfo((prev) => {
                 prev.birth = e.target.value.split("-").join(".");
                 return prev;
-              })
-            }
-          />
-        </label>
-        <br />
-        <label>
-          <span>ID</span>
-          <input
-            onChange={(e) =>
-              setInfo((prev) => {
-                if (e.target.value !== e.target.value.trim()) e.target.value = e.target.value.trim();
-                prev.id = e.target.value;
-                return prev;
-              })
-            }
-          />
-        </label>
-        <br />
-        <label>
-          <span>PW</span>
-          <input
-            type="password"
-            onChange={(e) =>
-              setInfo((prev) => {
-                if (e.target.value !== e.target.value.trim()) e.target.value = e.target.value.trim();
-                prev.pw = e.target.value;
-                return prev;
-              })
-            }
+              });
+            }}
           />
         </label>
         <br />
@@ -96,7 +54,21 @@ export default function SignUp() {
           />
         </label>
         <br />
-        <button onClick={signup}>회원가입</button>
+        <button
+          onClick={() => {
+            if (!info.name || !info.birth || !info.email) {
+              alert("입력하지 않은 값이 있습니다.");
+              return;
+            }
+            const res = findid(info);
+            if (!res) alert("해당하는 사용자 정보가 없습니다.");
+            else {
+              alert(`아이디는 다음과 같습니다.\n${res}`);
+              history.push("/login");
+            }
+          }}>
+          아이디 찾기
+        </button>
         <br />
         <button onClick={() => history.push("/login")}>로그인</button>
       </div>

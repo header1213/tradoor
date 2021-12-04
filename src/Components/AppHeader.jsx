@@ -13,7 +13,7 @@ export default function AppHeader() {
     // history.push("/");
     history.push("/login");
   }
-  const user = me(session);
+  const user = me();
   return (
     <header>
       <Link to="/">

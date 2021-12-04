@@ -25,14 +25,14 @@ export default function Report(props) {
             <textarea className="tradetext" placeholder="신고 사유 입력..."></textarea>
           </div>
         </div>
-        <input
+        <button
           type="submit"
           onClick={() => {
             alert("신고가 접수되었습니다.");
             history.push("/");
-          }}
-          value="신고하기"
-        />
+          }}>
+          신고하기
+        </button>
       </div>
     </main>
   );

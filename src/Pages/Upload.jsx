@@ -38,7 +38,7 @@ export default function Upload() {
     } else if (thumbnail === "question") {
       image = "question.png";
     } else if (thumbnail === "upload") {
-      alert("업로드는 미구현되었습니다.");
+      alert("미구현되었습니다. 파일을 선택해도 무시됩니다.");
       return;
     }
     if (type === "give") {
@@ -94,7 +94,7 @@ export default function Upload() {
             </div>
           </div>
         </div>
-        <input
+        <button
           type="submit"
           id="submit"
           onClick={() => {
@@ -109,9 +109,9 @@ export default function Upload() {
               alert("먼저 로그인을 해주세요.");
               history.push("/login");
             }
-          }}
-          value="업로드"
-        />
+          }}>
+          업로드
+        </button>
       </div>
     </main>
   );

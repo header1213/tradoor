@@ -1,70 +1,73 @@
-# Getting Started with Create React App
+# TRADOOR
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+TRADOOR는 물물교환을 위한 플랫폼입니다.
 
-## Available Scripts
+## 교환 방식
 
-In the project directory, you can run:
+- 사용자 A(giver)가 자신이 가진 물건, 즉 자신이 줄 물건과 그 사진을 업로드합니다. 또한 자신이 원하는 물건, 즉 자신이 받을 물건을 업로드합니다.
+- 사용자 B(taker)는 A가 업로드한 물건을 보고, 자신의 물건과 교환을 원할 때 물건의 사진과 함께 교환을 제안합니다.
+- 사용자 A는 B의 제안을 확인하고, B가 제안한 교환이 적절하다고 생각하면 수락합니다.
+- A가 업로드한 교환은 목록에서 지워지고, A와 B 사이의 채팅방이 열립니다. A와 B는 서로의 합의 하에 교환 방식(택배/직거래 등)을 정하여 교환을 진행합니다.
+- 서로의 합의 하에, 또는 교환 성립 일주일 후에 채팅방은 닫힙니다.
 
-### `yarn start`
+- 택배 거래 시 상대의 물건이 배송되지 않았다면 귀사에 문의할 수 있습니다. 귀사는 가능한 모든 노력을 통해 상대의 책임을 묻고 책임이 인정되면 배상하게 합니다.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<br />
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+# 프로젝트 설명
 
-### `yarn test`
+수업 시간에 배운 jsx 문법 및 scss, Hooks, React-Router-Dom, Context 등을 활용하여 구현한 앱입니다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<small>참고 : `페이지 이름`은 소문자로, `컴포넌트 이름`은 카멜케이스로 작성되었습니다. `/findid` 페이지의 컴포넌트를 찾으려면 `/Components/FindId`를 확인하세요.</small>
 
-### `yarn build`
+## 로그인 및 회원가입
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+앱에 접속하게 되면 로그인 페이지(`/login)`가 나타납니다. 로그인 페이지에서는 로그인하거나, 아이디 찾기(`/findid`) / 비밀번호 찾기(`/findpw`) 또는 회원가입(`/signup`) 페이지로 이동할 수 있습니다. 초기 상태에서 사용 가능한 아이디/비밀번호 쌍은 다음과 같습니다.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- amugae04 / dkanro1234
+- tradekim / 0000
+- header / header1213
+- iz_kang / !20181029
+- x / x
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+아이디 찾기 페이지에서는 이름(닉네임)과 생년월일, 이메일을 입력하면 아이디를 보여주고 로그인 페이지로 돌아가며, 비밀번호 찾기 페이지에서는 이름과 생년월일, 이메일과 아이디를 입력하면 비밀번호를 보여주고 로그인 페이지로 돌아갑니다.
 
-### `yarn eject`
+회원가입 페이지에서는 자신의 정보를 입력하고 새로운 사용 가능한 아이디/비밀번호 쌍을 만들 수 있습니다. 로그인하면, 메인 페이지(`/`)로 이동합니다.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## 헤더와 푸터
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+헤더(`/Components/AppHeader`)와 푸터(`/Components/AppFooter`)에는 각각 세 개의 버튼이 있습니다. 헤더에는 왼쪽부터 메인 버튼(`/`), 알림 버튼(`/notifications`), 프로필 버튼(`/profile/:id`)이 있습니다. 각각을 누르면 해당하는 페이지로 이동합니다. 단, 로그인되어 있지 않다면 프로필 버튼을 눌렀을 때 로그인 페이지(`/login`)으로 이동합니다. <br />
+<small>알림 페이지(`/notifications`)는 미구현되었습니다.</small>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+푸터에는 왼쪽부터 업로드 버튼(`/upload`), 검색 버튼(`/search`), 뒤로가기 버튼이 있습니다. <br />
+<small>검색 페이지(`/search`)는 미구현되었습니다.</small>
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## 메인 페이지
 
-## Learn More
+메인 페이지에서는 업로드된 교환들을 보여줍니다. 좌상단의 정렬 버튼을 통해 정렬 방법(최신순/관심도순)을 선택할 수 있습니다.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+교환을 누르면 해당하는 교환 페이지(`/trade/:id`)로 이동하고, 업로더(giver)의 프로필을 누르면 해당하는 프로필 페이지(`/profile/:id`)로 이동합니다.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 프로필 페이지
 
-### Code Splitting
+프로필 페이지에서는 해당하는 사용자의 정보를 확인할 수 있습니다. 사용자의 프로필과 닉네임, 여러 기록들이 보여집니다.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+자기 자신의 프로필 페이지에서는 두 가지 버튼이 나타납니다. 개인정보 확인 버튼을 누르면 개인정보 페이지(`/privacy`)로 이동하고, 로그아웃 버튼을 누르면 로그아웃되어 로그인 페이지(`/login`)로 이동합니다.
 
-### Analyzing the Bundle Size
+개인정보 페이지에서는 자신의 아이디, 비밀번호 및 개인정보를 확인할 수 있으며, 비밀번호를 입력하고 다른 정보를 수정한 후 개인정보 수정 버튼을 눌러 개인정보를 수정할 수도 있습니다. 프로필 확인 버튼을 눌러 다시 프로필 페이지로 돌아갑니다.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 교환 페이지
 
-### Making a Progressive Web App
+교환 페이지에서는 해당하는 교환에서 업로더가 줄 물건과 받을 물건이 보여집니다. 교환이 부적절하다고 생각되면, 신고 버튼을 통해 해당하는 신고 페이지(`/report/:id`)로 이동할 수 있습니다. 교환을 원하면, 교환 제안 버튼을 통해 해당하는 교환 제안 페이지(`/suggest/:id`)로 이동할 수 있습니다. <br />
+<small>교환 제안 페이지(`/suggest/:id`)는 미구현되었습니다.</small>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## 업로드 페이지
 
-### Advanced Configuration
+업로드 페이지에서는 교환을 업로드할 수 있습니다. 줄 물건의 이름을 입력하고, 줄 물건의 사진(썸네일)을 선택합니다.(빈 썸네일/물음표 썸네일/썸네일 업로드). 받을 물건의 이름과 사진도 마찬가지로 입력합니다. 업로드 버튼을 누르면, 메인 페이지의 교환 목록에 해당 항목이 추가되고 메인 페이지로 이동합니다. <br />
+<small>썸네일 업로드는 미구현되었습니다.</small>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+<br />
 
-### Deployment
+# 마치며
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+이상이 이번 프로젝트에 대한 대략적인 설명입니다. 읽어주셔서 감사합니다.

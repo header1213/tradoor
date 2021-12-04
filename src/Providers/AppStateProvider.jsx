@@ -108,9 +108,8 @@ const AppStateProvider = ({ children }) => {
       },
     },
   ]);
-  const [users, setUsers] = useState([
-    {
-      id: "amugae04",
+  const [users, setUsers] = useState({
+    amugae04: {
       pw: "dkanro1234",
       name: "아무개",
       profile: "defaultprofile.png",
@@ -118,9 +117,10 @@ const AppStateProvider = ({ children }) => {
       upload: 2,
       trade: 0,
       signup: "2021.11.28",
+      birth: "1919.03.01",
+      email: "anyone@naver.com",
     },
-    {
-      id: "tradekim",
+    tradekim: {
       pw: "0000",
       name: "김교환",
       profile: "profile1.png",
@@ -128,9 +128,10 @@ const AppStateProvider = ({ children }) => {
       upload: 15,
       trade: 22,
       signup: "2021.03.31",
+      birth: "2000.01.01",
+      email: "tradekim@gmail.com",
     },
-    {
-      id: "header",
+    header: {
       pw: "header1213",
       name: "header",
       profile: "profile2.png",
@@ -138,44 +139,74 @@ const AppStateProvider = ({ children }) => {
       upload: 5,
       trade: 7,
       signup: "2021.07.20",
+      birth: "2004.12.13",
+      email: "tworiver1213@gmail.com",
     },
-    {
-      id: "iz_kang",
+    iz_kang: {
       pw: "!20181029",
       name: "강광배",
       profile: "profile3.png",
       trust: 54,
       upload: 1,
       trade: 2,
-      signup: "2021.07.05",
+      signup: "2018.10.29",
+      birth: "1999.07.05",
+      email: "kang@bubble.com",
     },
-    {
-      id: " ",
-      pw: " ",
-      name: " ",
+    x: {
+      pw: "x",
+      name: "x",
       profile: "blank.png",
       trust: 50,
       upload: 0,
       trade: 0,
       signup: "2021.12.01",
+      birth: "1900.01.01",
+      email: "none@unknown.com",
     },
-  ]);
+  });
   const [session, setSession] = useState();
 
-  const me = (S) => {
-    return users.find((user) => user.id === S);
+  const findtrade = (id) => {
+    return trades.find((trade) => trade.id === id);
   };
-  const isMe = (S) => {
-    return session === S;
+  const finduser = (userId, privacy = false) => {
+    const user = users[userId];
+    if (!user) return false;
+    if (privacy) return user;
+    return {
+      name: user.name,
+      profile: user.profile,
+      trust: user.trust,
+      upload: user.upload,
+      trade: user.trade,
+      signup: user.signup,
+    };
+  };
+  const findid = (info) => {
+    let find;
+    Object.keys(users).forEach((id) => {
+      const user = users[id];
+      if (info.name === user.name && info.birth === user.birth && info.email === user.email) find = id;
+    });
+    return find;
+  };
+  const findpw = (info) => {
+    const user = users[info.id];
+    if (!user) return false;
+    if (info.name === user.name && info.birth === user.birth && info.email === user.email) return user.pw;
+  };
+  const me = () => {
+    const user = users[session];
+    if (!user) return false;
+    return { ...user, id: session };
   };
   const upload = (info) => {
-    if (!session) {
-      console.log(session);
+    if (!me()) {
       return false;
     }
-    setTrades([
-      ...trades,
-      {
+    setTrades((prev) => {
+      prev.push({
         id: trades.length,
         interest: 0,
         give: {
@@ -187,16 +218,17 @@ const AppStateProvider = ({ children }) => {
           name: info.take.name,
           image: info.take.image,
         },
-      },
-    ]);
+      });
+      return [...prev];
+    });
     setUsers((prev) => {
-      prev.find((user) => user.id === session).upload++;
-      return prev;
+      prev[session].upload++;
+      return { ...prev };
     });
     return true;
   };
   const signup = (info) => {
-    if (users.find((user) => user.id === info.id)) {
+    if (finduser(info.id)) {
       return false;
     }
 
@@ -205,24 +237,36 @@ const AppStateProvider = ({ children }) => {
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const day = date.getDate().toString().padStart(2, "0");
 
-    setUsers([
-      ...users,
-      {
-        id: info.id,
+    setUsers((prev) => {
+      prev[info.id] = {
         pw: info.pw,
         name: info.name,
-        profile: "blank.png",
+        profile: "defaultprofile.png",
         trust: 50,
         upload: 0,
         trade: 0,
         signup: `${year}.${month}.${day}`,
-      },
-    ]);
+        birth: info.birth,
+        email: info.email,
+      };
+      return { ...prev };
+    });
+
+    return true;
+  };
+  const editprivacy = (info) => {
+    if (info.pw !== me().pw) return false;
+    setUsers((prev) => {
+      prev[session].name = info.name;
+      prev[session].birth = info.birth;
+      prev[session].email = info.email;
+      return { ...prev };
+    });
     return true;
   };
   const login = (info) => {
-    const S = me(info.id);
-    if (S && S.pw === info.pw) {
+    const user = finduser(info.id, true);
+    if (user && user.pw === info.pw) {
       setSession(info.id);
       return true;
     } else {
@@ -236,14 +280,17 @@ const AppStateProvider = ({ children }) => {
     <AppStateContext.Provider
       value={{
         trades,
-        upload,
-        users,
-        me,
-        isMe,
-        signup,
+        findtrade,
+        finduser,
+        findid,
+        findpw,
         session,
+        me,
+        editprivacy,
+        signup,
         login,
         logout,
+        upload,
       }}>
       {children}
     </AppStateContext.Provider>

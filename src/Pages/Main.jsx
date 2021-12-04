@@ -2,17 +2,21 @@ import React, { useState, useRef, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import AppStateContext from "../Contexts/AppStateContext";
 import blank from "../Images/blank.png";
+import question from "../Images/question.png";
 import heart from "../Images/heart.png";
 
 export default function Main() {
-  const { trades, me } = useContext(AppStateContext);
+  const { trades, finduser } = useContext(AppStateContext);
   const history = useHistory();
   const [tradelist, setList] = useState(
     trades.sort((a, b) => {
       return b.id - a.id;
     })
   );
-  const images = useRef({});
+  const images = useRef({
+    "blank.png": blank,
+    "question.png": question,
+  });
   const sortList = (e) => {
     let list;
     if (e.target.value === "recent") {
@@ -33,7 +37,7 @@ export default function Main() {
         <option value="interest">관심도순</option>
       </select>
       {tradelist.map((trade) => {
-        const user = me(trade.give.userId);
+        const user = finduser(trade.give.userId);
         [trade.give.image, trade.take.image, user.profile].forEach((image) => {
           if (!images.current[image]) {
             images.current[image] = require(`../Images/${image}`).default;
